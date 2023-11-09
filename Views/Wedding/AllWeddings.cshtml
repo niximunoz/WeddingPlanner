@@ -1,0 +1,39 @@
+@model List<Wedding>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Wedding of</th>
+            <th scope="col">Date</th>
+            <th scope="col">Guest Count</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Wedding w in Model)
+        {
+            <tr>
+                <th scope="row">
+                    <a asp-action="ViewWedding" asp-controller="Wedding" asp-route-id_wedding="@w.WeddingId">@w.WedderOne &
+                        @w.WedderTwo</a>
+                </th>
+                <td>@w.Date.ToString("M"), @w.Date.Year</td>
+                <td>@w.Assistants.Count()</td>
+                @if (@w.UserId == Context.Session.GetInt32("UserId"))
+                {
+                    <td><a asp-action="RemoveWedding" asp-controller="Wedding" asp-route-id_wedding="@w.WeddingId">Delete</a></td>
+                }
+                else
+                {
+                    <td>
+                        @{bool isConfirmed = w.Assistants.Any(c => c.UserId == Context.Session.GetInt32("UserId"));
+                        if(isConfirmed){
+                            <a asp-action="AssistanceWedding" asp-controller="Wedding" asp-route-id_wedding="@w.WeddingId">Un-RSVP</a>
+                        }else{
+                            <a asp-action="AssistanceWedding" asp-controller="Wedding" asp-route-id_wedding="@w.WeddingId">RSVP</a>
+                        }}
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>

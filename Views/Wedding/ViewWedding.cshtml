@@ -1,0 +1,22 @@
+@model WeddingUser
+<div>
+    <h2> @Model.Wedding.WedderOne & @Model.Wedding.WedderTwo 's wedding</h2>
+</div>
+<div class="display-6"> Date: @Model.Wedding.Date.ToString("M"), @Model.Wedding.Date.Year </div>
+<div class="display-6">Guests:</div>
+<div class="card mb-3">
+    <div class="row g-0">
+        <div class="col-md-8">
+            <div class="card-body fs-3">
+                <div>
+                    @foreach (var assit in @Model.ListAsist)
+                    {
+                        <div>@assit.FirstName @assit.LastName</div>
+                    }
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
